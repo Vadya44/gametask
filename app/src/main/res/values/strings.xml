@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">GameTask</string>
+    <string name="showTime">Отображать текущее время сервера</string>
+    <string name="showCoords">Отображать значения координат</string>
+    <string name="gameField">Размеры игрового поля</string>
+    <string name="setX">Ширина</string>
+    <string name="setY">Высота</string>
+    <string name="button_start_text">Начать игру!</string>
+</resources>
