@@ -23,6 +23,19 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<MatrixButton> data = new ArrayList<>();
     private GridView list;
 
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            getSupportFragmentManager().popBackStack();
+            getSupportFragmentManager().popBackStack();
+        }
+        else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+        }
+        else {
+            finish();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

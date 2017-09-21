@@ -14,12 +14,18 @@
         android:layout_height="wrap_content"
         android:id="@+id/timer_text_view"
         android:layout_gravity="center" />
+
     <TableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/table_grid">
 
     </TableLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/points"
+        android:layout_gravity="center" />
 
 
 </LinearLayout>
