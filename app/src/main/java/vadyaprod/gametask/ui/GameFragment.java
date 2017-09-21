@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,6 +19,7 @@ import vadyaprod.gametask.MatrixButton;
 import vadyaprod.gametask.R;
 import vadyaprod.gametask.adapters.GridViewCustom;
 import vadyaprod.gametask.model.GameField;
+import vadyaprod.gametask.model.GameProcess;
 
 /**
  * Created by Vadya on 19.09.17.
@@ -30,11 +34,13 @@ public class GameFragment extends Fragment {
     private List<Button> mButtons;
     private GameField mGameField;
     private GridViewCustom mGridView;
-    private TextView mTextView;
     private int mInputedX;
     private int mInputedY;
     private boolean mIsShowTime;
     private boolean mIsShowCoords;
+
+    private boolean isFirstClick = true;
+    private GameProcess mGameProcess;
 
     ArrayList<MatrixButton> data = new ArrayList<>();
     private GridView list;
@@ -49,8 +55,8 @@ public class GameFragment extends Fragment {
                              Bundle savedInstanceState) {
         Bundle extras = this.getArguments();
         if (extras != null) {
-            mInputedY = extras.getInt(INPUTED_Y);
-            mInputedX = extras.getInt(INPUTED_X);
+            mInputedY = extras.getInt(INPUTED_X);
+            mInputedX = extras.getInt(INPUTED_Y);
             mIsShowCoords = extras.getBoolean(SHOW_COORDS);
             mIsShowTime = extras.getBoolean(SHOW_TIME);
         }
@@ -58,13 +64,91 @@ public class GameFragment extends Fragment {
             mInputedX++;
             mInputedY++;
         }
-        View v = inflater.inflate(R.layout.fragment_game, container, false);
+        final View v = inflater.inflate(R.layout.fragment_game, container, false);
+
+
+        LinearLayout layoutVertical = (LinearLayout)v.findViewById(R.id.table_grid);
+        //create a new TableLayout
+        TableLayout table = null;
+
+
+        final MatrixButton[][] buttonArray = new MatrixButton[mInputedX][mInputedY];
+        table = new TableLayout(getContext());
+        table.setStretchAllColumns(true);
+        table.setShrinkAllColumns(true);
+        for (int row = 0; row < mInputedX; row++) {
+            TableRow currentRow = new TableRow(getContext());
+            for (int button = 0; button < mInputedY; button++) {
+                final MatrixButton currentButton = new MatrixButton(getContext());
+                currentButton.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+                currentButton.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                final int i = row;
+                final int j = button;
+
+                currentButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                            if (isFirstClick)
+                            {
+                                mGameProcess = new GameProcess((TextView)v.findViewById(R.id.timer_text_view));
+                                isFirstClick = false;
+                            }
+
+
+                            if (buttonArray[i][j].isClickedYet())
+                                mGameProcess.reduceCountDownTimer();
+                            else mGameProcess.createCountDownTimer();
+
+
+
+                        buttonArray[i][j].upCounter();
+                        currentButton.setText(buttonArray[i][j].getCounter());
+                        }
+                });
+
+                if (mIsShowCoords && row == mInputedX - 1) {
+                    currentButton.setText(String.valueOf(button));
+                    currentButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    });
+                }
+                if (mIsShowCoords && button == 0){
+                    currentButton.setText(String.valueOf((mInputedX - row - 1) * 10));
+                    currentButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    });
+                }
+                // you could initialize them here
+                // you can store them
+                buttonArray[row][button] = currentButton;
+                // and you have to add them to the TableRow
+                currentRow.addView(currentButton);
+            }
+            // a new row has been constructed -> add to table
+            table.addView(currentRow);
+        }
+// and finally takes that new table and add it to your layout.
+        layoutVertical.addView(table);
+
+
+
+
+        /*list = (GridView) v.findViewById(R.id.grid_view);
+        list.setNumColumns(mInputedX);
+
 
         for (int i = 0; i < mInputedX; i++) {
             for(int j=0; j < mInputedY; j++)
             {
                 MatrixButton matrixButton = new MatrixButton(getContext());
-                if (mIsShowCoords && mInputedY == mInputedX) {
+                if (mIsShowCoords) {
                     if (mIsShowCoords && j == 0) {
                         matrixButton.setCounter((mInputedX - i - 1) * 10);
                     }
@@ -75,11 +159,11 @@ public class GameFragment extends Fragment {
                 data.add(matrixButton);
             }
         }
-        mTextView = v.findViewById(R.id.timer_text_view);
-        GridViewCustom adapter = new GridViewCustom(getContext(), data, mTextView);
-        list = (GridView) v.findViewById(R.id.grid_view);
+
+
+        GridViewCustom adapter = new GridViewCustom(getContext(), data);
         list.setAdapter(adapter);
-        list.setNumColumns(mInputedX);
+        */
 
 
 

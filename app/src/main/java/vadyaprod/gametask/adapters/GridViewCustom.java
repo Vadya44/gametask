@@ -26,17 +26,14 @@ import vadyaprod.gametask.model.GameProcess;
 public class GridViewCustom extends BaseAdapter {
     ArrayList<MatrixButton> mMatrixButtons;
     private Context mContext;
-    private TextView mTextView;
     private boolean isFirstClick;
     private GameProcess mGameProcess;
 
 
 
-    public GridViewCustom(Context context, ArrayList<MatrixButton> matrixButtonArrayList,
-                          TextView textView) {
+    public GridViewCustom(Context context, ArrayList<MatrixButton> matrixButtonArrayList) {
         this.mContext = context;
         this.mMatrixButtons = matrixButtonArrayList;
-        this.mTextView = textView;
         this.isFirstClick = true;
     }
 
@@ -59,7 +56,7 @@ public class GridViewCustom extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         final MatrixButton button;
         if (convertView == null) {
             button = new MatrixButton(mContext);
@@ -90,7 +87,7 @@ public class GridViewCustom extends BaseAdapter {
                     if (mMatrixButtons.get(position).isActive()) {
                         if (isFirstClick)
                         {
-                            mGameProcess = new GameProcess(mTextView);
+                            mGameProcess = new GameProcess((TextView)parent.findViewById(R.id.timer_text_view));
                             isFirstClick = false;
                         }
 

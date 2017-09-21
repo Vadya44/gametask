@@ -44,13 +44,16 @@ public class GameProcess {
 
 
     public void reduceCountDownTimer(){
-        timer = new CountDownTimer(countDownPeriod - 5000, 1) {
+        if (timer != null)
+        timer.cancel();
+        timer = new CountDownTimer(countDownPeriod - 5000, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
                 textTimer.setText("Timer " + millisUntilFinished / 1000);
                 countDownPeriod=millisUntilFinished;
                 mPenaltyPoint++;
+
             }
 
             @Override
@@ -58,10 +61,13 @@ public class GameProcess {
 
             }
         };
+        timer.start();
     }
 
 
     public void createCountDownTimer() {
+        if (timer != null)
+        timer.cancel();
         timer = new CountDownTimer(countDownPeriod + 5000, 1) {
 
             @Override
@@ -76,5 +82,6 @@ public class GameProcess {
 
             }
         };
+        timer.start();
     }
 }
