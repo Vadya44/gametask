@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -89,8 +90,8 @@ public class GameFragment extends Fragment {
             TableRow currentRow = new TableRow(getContext());
             for (int button = 0; button < mInputedY; button++) {
                 final MatrixButton currentButton = new MatrixButton(getContext());
-                currentButton.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-                currentButton.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+                //currentButton.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+                //currentButton.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
 
                 final int i = row;
                 final int j = button;
