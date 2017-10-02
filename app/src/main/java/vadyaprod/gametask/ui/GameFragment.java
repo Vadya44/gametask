@@ -82,6 +82,7 @@ public class GameFragment extends Fragment {
         TableLayout table = null;
 
 
+
         final MatrixButton[][] buttonArray = new MatrixButton[mInputedX][mInputedY];
         table = new TableLayout(getContext());
         table.setStretchAllColumns(true);
