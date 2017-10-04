@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.fragment_container, fragment)
                     .commit();
         }
+
+
     }
 
     public void setGameFragment(GameField gameField){

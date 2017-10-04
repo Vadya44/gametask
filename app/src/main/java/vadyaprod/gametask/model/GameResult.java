@@ -1,6 +1,7 @@
 package vadyaprod.gametask.model;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,6 +13,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.sql.Time;
+import java.util.TimeZone;
 
 
 import vadyaprod.gametask.InfoDeserializer;
@@ -22,11 +24,6 @@ import vadyaprod.gametask.InfoDeserializer;
  */
 
 public class GameResult {
-    static URL url;
-    static StringBuilder result;
-    static ServerInfo sServerInfo;
-    static String resultString;
-
     public int getPrizePoints() {
         return mPrizePoints;
     }
@@ -46,41 +43,19 @@ public class GameResult {
 
     private Date mAppTime;
 
-    public String getServerTime() {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
-        return sdf.format(mServerTime);
+    public String getServerTime() {
+        return mServerTime;
     }
 
-    private Date mServerTime;
 
-    public GameResult(int prizePoints, int penaltyPoints, Date appTime)
+    private String mServerTime;
+
+    public GameResult(int prizePoints, int penaltyPoints, Date appTime, String serverTime)
     {
         this.mPrizePoints = prizePoints;
         this.mPenaltyPoints = penaltyPoints;
         this.mAppTime = appTime;
-        initServerTime();
-    }
-    private void initServerTime(){
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Data.class, new InfoDeserializer())
-                .create();
-
-        try {
-            url = new URL("https://abcgames.khorost.net/api/?device=123&ppa=zt_getInfo&app_version=1.5.0070&type=test&lang=ru");
-            InputStream in = url.openStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            result = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                result.append(line);
-            }
-            resultString = result.toString();
-            reader.close();
-
-        } catch ( Exception e) {}
-
-        ServerInfo data = gson.fromJson(resultString, ServerInfo.class);
-        Log.v("kek", data.getDate().getTimeStamp());
+        this.mServerTime = serverTime;
     }
 }

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
@@ -29,6 +30,9 @@ public class InfoDeserializer implements JsonDeserializer<Data> {
                 Map.Entry<String, JsonElement> entry = entries.iterator().next();
                 data = new Data(entry.getValue().getAsString());
             }
+            final JsonObject jsonObject = json.getAsJsonObject();
+            final JsonElement timeStamp = jsonObject.get("timestamp");
+            data = new Data(timeStamp.getAsString());
         }
         return data;
     }
